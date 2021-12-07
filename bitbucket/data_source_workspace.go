@@ -23,7 +23,7 @@ func dataSourceWorkspace() *schema.Resource {
 }
 
 func dataSourceWorkspaceRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*bb.Client)
+	c := m.(*Client)
 
 	var diags diag.Diagnostics
 

@@ -33,7 +33,7 @@ func dataSourceRepository() *schema.Resource {
 }
 
 func dataSourceRepositoryRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*bb.Client)
+	c := m.(*Client)
 
 	var diags diag.Diagnostics
 
