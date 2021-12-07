@@ -99,6 +99,12 @@ In order to run the full suite of Acceptance tests, run `make testacc`.
 $ make testacc
 ```
 
+### Docker
+
+```
+docker run --rm -v "$PWD":/app -w /app golang:1.17 make test
+```
+
 About V1 APIs
 ------------------
 

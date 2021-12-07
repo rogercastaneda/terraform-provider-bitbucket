@@ -8,7 +8,7 @@ import (
 	bb "github.com/ktrysmt/go-bitbucket"
 )
 
-func dataSourceWorkspace() *schema.Resource {
+func dataSourceBitbucketWorkspace() *schema.Resource {
 	return &schema.Resource{
 		Description: "`bitbucket_workspace` data source can be used to retrieve the UUID for a workspace by name.",
 		ReadContext: dataSourceWorkspaceRead,
@@ -23,7 +23,7 @@ func dataSourceWorkspace() *schema.Resource {
 }
 
 func dataSourceWorkspaceRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*Client)
+	c := m.(*bb.Client)
 
 	var diags diag.Diagnostics
 

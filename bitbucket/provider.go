@@ -1,9 +1,10 @@
 package bitbucket
 
 import (
-	"net/http"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	gobb "github.com/ktrysmt/go-bitbucket"
+
+	v1 "github.com/zahiar/terraform-provider-bitbucket/bitbucket/api/v1"
 )
 
 // Provider will create the necessary terraform provider to talk to the Bitbucket APIs you should
@@ -35,18 +36,34 @@ func Provider() *schema.Provider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"bitbucket_user":       dataUser(),
-			"bitbucket_workspace":  dataSourceWorkspace(),
-			"bitbucket_repository": dataSourceRepository(),
+			"bitbucket_workspace":  dataSourceBitbucketWorkspace(),
+			"bitbucket_repository": dataSourceBitbucketRepository(),
 		},
 	}
 }
 
+type Clients struct {
+	V1 *v1.Client
+	V2 *gobb.Client
+}
+
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-	client := &Client{
-		Username:   d.Get("username").(string),
-		Password:   d.Get("password").(string),
-		HTTPClient: &http.Client{},
+	client := gobb.NewBasicAuth(
+		d.Get("username").(string),
+		d.Get("password").(string),
+	)
+
+	v1Client := v1.NewClient(
+		&v1.Auth{
+			Username: d.Get("username").(string),
+			Password: d.Get("password").(string),
+		},
+	)
+
+	clients := &Clients{
+		V1: v1Client,
+		V2: client,
 	}
 
-	return client, nil
+	return clients, nil
 }
